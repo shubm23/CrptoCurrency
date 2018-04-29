@@ -20,8 +20,9 @@
     $(document).ready(function(){
         $.getJSON("https://api.coinmarketcap.com/v1/ticker/",function(data){
           $.each(data,function(i,value){
-          var row = $('<tr><td>'+value.rank+'</td><td><a id="cname-'+value.name+'">'+value.name+'</a></td><td>'+value.symbol+'</td><td>'+value.market_cap_usd+'</td><td>'+value.price_usd+'</td><td>'+value.available_supply+'</td><td>'+value.percent_change_1h+'</td><td>'+value.percent_change_24h+'</td><td>'+value.percent_change_7d+'</td><tr>');
+          var row = $('<tr><td>'+value.rank+'</td><td><a id="cname-'+value.name+'">'+value.name+'</a></td><td>'+value.symbol+'</td><td>'+value.market_cap_usd+'</td><td>'+value.price_usd+'</td><td>'+value.available_supply+'</td><td id="onehr">'+value.percent_change_1h+'</td><td>'+value.percent_change_24h+'</td><td>'+value.percent_change_7d+'</td><tr>');
           $('tbody').append(row);
+          //Refreshing
           window.setTimeout(function(){
             location.reload();
 
@@ -35,12 +36,23 @@
         $('table#Currency_table').on('click','a[id^="cname-"]',function()	{
                 var currency_name = $(this).prop('id').replace('cname-','');
                 $.getJSON("https://api.coinmarketcap.com/v1/ticker/"+currency_name+"/",function(data){
+
                         $.each(data,function(i,value){
                           $('span#rank').text(value.rank);
                           $('span#name').text(value.name);
                           $('span#symbol').text(value.symbol);
                           $('span#market_cap').text(value.market_cap_usd);
                           $('span#price').text(value.price_usd);
+                          $('span#price_btc').text(value.price_btc);
+
+                          $('span#market_cap_usd').text(value.market_cap_usd);
+                          $('span#available_supply').text(value.available_supply);
+                          $('span#total_supply').text(value.total_supply);
+                          $('span#max_supply').text(value.max_supply);
+                          $('span#percent_change_1h').text(value.percent_change_1h);
+                          $('span#percent_change_24h').text(value.percent_change_24h);
+                          $('span#percent_change_7d').text(value.percent_change_7d);
+                          $('span#last_updated').text(value.last_updated);
                         });
                   });
                   $("#myModal").modal();
@@ -69,7 +81,6 @@
         <th>Market Cap</th>
         <th>Price</th>
         <th>Circulating</th>
-
         <th>%1h</th>
         <th>%24h</th>
         <th>%7d</th>
@@ -86,11 +97,20 @@
           <h4 class="modal-title">Cryptocurrency Details</h4>
         </div>
         <div class="modal-body">
-          <p>Rank:<span id="rank"></span></p>
-          <p>Name:<span id="name"></span></p>
-          <p>Symbol:<span id="symbol"></span></p>
-          <p>Market Capital:<span id="market_cap"></span></p>
-          <p>Price:<span id="price"></span></p>
+          <p>Rank: <span id="rank"></span></p>
+          <p>Name: <span id="name"></span></p>
+          <p>Symbol: <span id="symbol"></span></p>
+          <p>Market Capital: $<span id="market_cap"></span></p>
+          <p>Price(usd): $<span id="price"></span></p>
+          <p>Price(btc): <span id="price"></span></p>
+          
+          <p>Available Supply: <span id="available_supply"></span></p>
+          <p>Total Supply: <span id="total_supply"></span></p>
+          <p>Max Supply: <span id="max_supply"></span></p>
+          <p>Percent Change 1h:<span id="percent_change_1h"></span></p>
+          <p>Percent Change 24h:<span id="percent_change_24h"></span></p>
+          <p>Percent Change 7d:<span id="percent_change_7d"></span></p>
+          <p>Last Updated:<span id="last_updated"></span></p>
         </div>
 
         <div class="modal-footer">
